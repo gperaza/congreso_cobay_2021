@@ -1,0 +1,61 @@
+* Creating a new course
+- To create a empty course, execute:
+
+nbgrader quickstart course_id
+
+- Delete existing ps1 from source folder.
+
+- If existing, copy the ~source~ folder with old assignmnets to the new course.
+
+- Modify the header file to represent the appropiate institution and class, most of the time this amounts to updating the header from a previous quarter.
+
+* Release assignment to GitHub Classroom
+- Generate student version of the assignment, simlink assignment to the source folder.
+
+- Assign correct cell type, either autograded assignment or test, in Jupyter Notebook.
+
+- Release the assignment, it now should be found in the release folder.
+
+- Add .gitignore, README, templates found in nbgrader scripts forlders by running git-init alias.
+
+- Create repository in the released version of the assignment, this will be the GitHib Classroom template repo. Push.
+
+- Make repo a template repo to speed up starter code replication.
+
+- Create assignment in GC:
+  - Use same name as released folder.
+  - Pull starter code from repo.
+
+- Send link to students on MS TEAMS. Be careful if this is the first assignment
+  of the course. Students need to link their GH account to the appropriate name
+  on the rooster. This needs only done once.
+
+* Collect assignments, clone all
+
+- Run clone-all.py script in the root of the nbgrader course as
+#+begin_src bash
+clone-all.py --assignment <ASSIGNMENT>
+#+end_src
+
+* Autograde assignments
+- Script to run the autograder from command line, using the Docker Kernel
+  - https://nbgrader.readthedocs.io/en/stable/user_guide/advanced.html#grading-in-docker (THIS DOES NOT WORK)
+  - To setup docker (just needed once): https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-20-04-es
+  - Instead of the official approach, build a Docker Image according to the documentation in docker-nbgrader directory. (Run once).
+  - Once the image is built, run the following to autograde assignment:
+    #+begin_src bash
+NBGRADER="docker run --init --rm -v $(pwd):/assignments/ jupyter/nbgrader"
+${NBGRADER} autograde <<ASSIGNMENT>>
+${NBGRADER} feedback <<ASSIGNMENT>>
+    #+end_src
+
+* Push feedback
+- Script to push feedback to students repositories.
+#+begin_src bash
+git-feedback.py --assignment <<ASSIGNMENT>>
+#+end_src
+
+
+* TIPS
+- Define an alias for NBGRADER
+- add nbgrader-scripts to path
