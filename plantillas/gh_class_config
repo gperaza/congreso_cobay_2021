@@ -1,0 +1,4 @@
+[DEFAULT]
+classroom = UPY-GP
+roster = classroom_roster.csv
+clonedir = cloned-repos
